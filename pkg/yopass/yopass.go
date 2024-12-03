@@ -13,6 +13,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 
 	"golang.org/x/crypto/openpgp"
 	"golang.org/x/crypto/openpgp/armor"
@@ -40,9 +41,10 @@ var pgpHeader = map[string]string{
 
 // Secret holds the encrypted message
 type Secret struct {
-	Expiration int32  `json:"expiration,omitempty"`
-	Message    string `json:"message"`
-	OneTime    bool   `json:"one_time,omitempty"`
+	Expiration int32         `json:"expiration,omitempty"`
+	Message    string        `json:"message"`
+	TTL        time.Duration `json:"ttl,omitempty"`
+	OneTime    bool          `json:"one_time,omitempty"`
 }
 
 // ToJSON converts a Secret to json
