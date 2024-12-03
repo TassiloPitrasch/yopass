@@ -1,0 +1,30 @@
+services:
+  fred:
+    image: fred:latest
+    container_name: fred
+    restart: always
+    networks:
+      - fred_internal
+      - fred_external
+    ports:
+      - "80:80"
+    command: "--database=redis --redis=redis://:${FRED_REDIS_PASSWORD}@fred_redis:6379/0 --port 80"
+
+  redis:
+    image: redis:latest
+    container_name: fred_redis
+    restart: always
+    networks:
+      - fred_internal
+    volumes:
+      - "${FRED_REDIS_CONF}:/etc/redis.conf"
+      - "${FRED_REDIS_DATA}:/data"
+    command: "redis-server /etc/redis.conf --requirepass ${FRED_REDIS_PASSWORD}"
+
+
+networks:
+  fred_internal:
+    internal: true
+  fred_external:
+    driver: bridge
+    internal: false
