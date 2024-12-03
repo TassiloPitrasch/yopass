@@ -6,7 +6,7 @@ import { useCopyToClipboard } from 'react-use';
 import { saveAs } from 'file-saver';
 import { useEffect } from 'react';
 
-const RenderSecret = ({ secret }: { readonly secret: string }) => {
+const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly notice: string }) => {
   const { t } = useTranslation();
   const [copy, copyToClipboard] = useCopyToClipboard();
 
@@ -38,6 +38,25 @@ const RenderSecret = ({ secret }: { readonly secret: string }) => {
       >
         {secret}
       </Typography>
+      <Typography
+        id="notice"
+        data-test-id="preformatted-text-message"
+        sx={{
+          backgroundColor: '#ffe6e6',
+          margin: '10px',
+          padding: '15px',
+          border: '2px solid #e60000',
+          display: 'block',
+          fontSize: '1rem',
+          borderRadius: '4px',
+          wordWrap: 'break-word',
+          wordBreak: 'break-all',
+          whiteSpace: 'pre-wrap',
+          fontFamily: 'monospace, monospace', // see comment above
+        }}
+      >
+        {notice}
+      </Typography>
     </div>
   );
 };
@@ -45,9 +64,11 @@ const RenderSecret = ({ secret }: { readonly secret: string }) => {
 const DownloadSecret = ({
   secret,
   fileName,
+  notice
 }: {
   readonly secret: string;
   readonly fileName: string;
+  readonly notice: string;
 }) => {
   const { t } = useTranslation();
 
@@ -63,6 +84,25 @@ const DownloadSecret = ({
   return (
     <div>
       <Typography variant="h4">{t('secret.titleFile')}</Typography>
+      <Typography
+        id="notice"
+        data-test-id="preformatted-text-message"
+        sx={{
+          backgroundColor: '#ffe6e6',
+          margin: '10px',
+          padding: '15px',
+          border: '2px solid #e60000',
+          display: 'block',
+          fontSize: '1rem',
+          borderRadius: '4px',
+          wordWrap: 'break-word',
+          wordBreak: 'break-all',
+          whiteSpace: 'pre-wrap',
+          fontFamily: 'monospace, monospace', // see comment above
+        }}
+      >
+        {notice}
+      </Typography>
     </div>
   );
 };
@@ -70,15 +110,31 @@ const DownloadSecret = ({
 const Secret = ({
   secret,
   fileName,
+  expiryDate,
+  oneTime,
 }: {
   readonly secret: string;
   readonly fileName?: string;
+  readonly expiryDate: Date;
+  readonly oneTime: boolean;
 }) => {
+  if (! oneTime) {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var formattedDate = new Intl.DateTimeFormat('en-GB', {
+        dateStyle: 'full',
+        timeStyle: 'long',
+        timeZone: timeZone,
+      }).format(expiryDate);
+    var notice = "This secret will expire on " + formattedDate + ". Be sure to copy/download it until then!";
+  }
+  else {
+    var notice = "This secret is one-time only. It's not stored anywhere anymore. Be sure to copy/download it NOW!";
+  }
   if (fileName) {
-    return <DownloadSecret fileName={fileName} secret={secret} />;
+    return <DownloadSecret fileName={fileName} secret={secret} notice={notice}/>;
   }
 
-  return <RenderSecret secret={secret} />;
+  return <RenderSecret secret={secret} notice={notice}/>;
 };
 
 export default Secret;
