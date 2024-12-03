@@ -5,6 +5,7 @@ import { Button, Typography } from '@mui/material';
 import { useCopyToClipboard } from 'react-use';
 import { saveAs } from 'file-saver';
 import { useEffect } from 'react';
+import i18n from '../i18n';
 
 const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly notice: string }) => {
   const { t } = useTranslation();
@@ -81,6 +82,7 @@ const DownloadSecret = ({
     );
   }, [fileName, secret]);
 
+
   return (
     <div>
       <Typography variant="h4">{t('secret.titleFile')}</Typography>
@@ -120,7 +122,9 @@ const Secret = ({
 }) => {
   if (! oneTime) {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    var formattedDate = new Intl.DateTimeFormat('en-GB', {
+    const DateTimeFormat = Intl.DateTimeFormat.supportedLocalesOf([i18n.language], {localeMatcher: "lookup"}) ? i18n.language : "en-US";
+
+    var formattedDate = new Intl.DateTimeFormat(DateTimeFormat, {
         dateStyle: 'full',
         timeStyle: 'long',
         timeZone: timeZone,
