@@ -36,7 +36,14 @@ func (r *Redis) Get(key string) (yopass.Secret, error) {
 		return s, err
 	}
 
+	ttl, err := r.client.TTL(key).Result()
+	if err != nil {
+		return s, err
+	}
+	s.TTL = ttl
+
 	if s.OneTime {
+		s.TTL = -1
 		_, err := r.Delete(key)
 		if err != nil {
 			return s, err
