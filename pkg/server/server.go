@@ -163,15 +163,10 @@ func (y *Server) HTTPHandler() http.Handler {
 
 const keyParameter = "{key:(?:[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12})}"
 
-// validExpiration validates that expiration is either
-// 3600(1hour), 86400(1day) or 604800(1week)
+// validExpiration validates that expiration is between
+// five minutes (300 seconds) and one month (31 days = 2678400 seconds)
 func validExpiration(expiration int32) bool {
-	for _, ttl := range []int32{3600, 86400, 604800} {
-		if ttl == expiration {
-			return true
-		}
-	}
-	return false
+	return (expiration >= 300 && expiration <= 2678400)
 }
 
 // SecurityHeadersHandler returns a middleware which sets common security
