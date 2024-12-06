@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/jhaals/yopass/pkg/yopass"
@@ -42,6 +43,20 @@ var (
 	defaultURL = "https://yopass.se"
 )
 
+// Mapping between time units and seconds
+var timeFactors = map[string]int{
+	// Seconds
+	"s": 1,
+	// Minutes
+	"m": 60,
+	// Hours
+	"h": 60 * 60,
+	// Days
+	"d": 60 * 60 * 24,
+	// Weeks
+	"w": 60 * 60 * 24 * 7,
+}
+
 func init() {
 	// Use build-time values if set; otherwise, fall back to hardcoded defaults.
 	// Build with -ldflags "-X main.defaultAPI=https://your-custom-api.com -X main.defaultURL=https://your-custom-url.com" to override defaults
@@ -69,7 +84,7 @@ func init() {
 	pflag.CommandLine = pflag.NewFlagSet(os.Args[0], pflag.ContinueOnError)
 	pflag.String("api", viper.GetString("api"), "Yopass API server location")
 	pflag.String("decrypt", viper.GetString("decrypt"), "Decrypt secret URL")
-	pflag.String("expiration", viper.GetString("expiration"), "Duration after which secret will be deleted [1h, 1d, 1w]")
+	pflag.String("expiration", viper.GetString("expiration"), "Duration after which secret will be deleted [from five minutes to one month]")
 	pflag.String("file", viper.GetString("file"), "Read secret from file instead of stdin")
 	pflag.String("key", viper.GetString("key"), "Manual encryption/decryption key")
 	pflag.Bool("one-time", viper.GetBool("one-time"), "One-time download")
@@ -159,7 +174,7 @@ func encryptStdin(in *os.File, out io.Writer) error {
 func encrypt(in io.ReadCloser, out io.Writer) error {
 	exp := expiration(viper.GetString("expiration"))
 	if exp == 0 {
-		return fmt.Errorf("Expiration can only be 1 hour (1h), 1 day (1d), or 1 week (1w)")
+		return fmt.Errorf("Expiration time out of range or malformed")
 	}
 
 	key, err := encryptionKey(viper.GetString("key"))
@@ -194,16 +209,25 @@ func encryptionKey(key string) (string, error) {
 }
 
 func expiration(s string) int32 {
-	switch s {
-	case "1h":
-		return 3600
-	case "1d":
-		return 3600 * 24
-	case "1w":
-		return 3600 * 24 * 7
-	default:
+	// Getting the factor corresponding to the provided time unit
+	// If the unit is missing or unknown, the factor is 0
+	timeUnit := s[len(s)-1:]
+	timeFactor := timeFactors[timeUnit]
+
+	// Parsing the provided numerical value
+	value, err := strconv.Atoi(s[:len(s)-1])
+	if err != nil {
+		value = 0
+	}
+
+	// Calculating the time-to-live in seconds and range check
+	// If either the factor or the value is 0, the result will also be 0 and therefore out of range
+	result := timeFactor * value
+	if result < 60 || result > 2592000 {
 		return 0
 	}
+
+	return int32(result)
 }
 
 func parse(args []string, stderr io.Writer) int {
