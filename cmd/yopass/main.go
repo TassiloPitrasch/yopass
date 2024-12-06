@@ -39,8 +39,8 @@ Website: %s
 `
 
 var (
-	defaultAPI = "https://api.yopass.se"
-	defaultURL = "https://yopass.se"
+	defaultAPI = "http://localhost"
+	defaultURL = "http://localhost"
 )
 
 // Mapping between time units and seconds
