@@ -28,6 +28,7 @@ export default defineConfig(() => {
         REACT_APP_FALLBACK_LANGUAGE: process.env.REACT_APP_FALLBACK_LANGUAGE,
         START_SERVER_AND_TEST_INSECURE:
           process.env.START_SERVER_AND_TEST_INSECURE,
+        PRIMARY_COLOR: process.env.PRIMARY_COLOR
       },
     },
     server: {
