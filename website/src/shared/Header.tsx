@@ -9,6 +9,7 @@ export const Header = () => {
   const base = process.env.PUBLIC_URL || '';
   const home = base + '/#/';
   const upload = base + '/#/upload';
+  // Replace home with base in first href below to force reload when clicking on logo
   return (
     <AppBar position="static" color="transparent" sx={{ marginBottom: 4 }}>
       <Toolbar>
