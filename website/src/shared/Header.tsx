@@ -24,8 +24,8 @@ export const Header = () => {
               }}
               component="img"
               height="40"
-              alt=""
-              src="yopass.svg"
+              alt="Yopass Logo"
+              src={import.meta.env.VITE_LOGO ? import.meta.env.VITE_LOGO : "yopass.svg"}
             />
           </Typography>
         </Link>

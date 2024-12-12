@@ -1,13 +1,13 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, Theme } from '@mui/material/styles';
 import { blueGrey } from '@mui/material/colors';
 
-let theme;
+var theme: Theme;
 
-if (process.env.PRIMARY_COLOR) {
+if (import.meta.env.VITE_PRIMARY_COLOR) {
   theme = createTheme({
     palette: {
       primary: {
-        main: process.env.PRIMARY_COLOR,
+        main: import.meta.env.VITE_PRIMARY_COLOR,
       },
     }
   })
