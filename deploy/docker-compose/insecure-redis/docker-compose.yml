@@ -1,30 +1,30 @@
 services:
-  fred:
-    image: fred:latest
-    container_name: fred
+  yopass:
+    image: TassiloPitrasch/yopass:latest
+    container_name: yopass
     restart: always
     networks:
-      - fred_internal
-      - fred_external
+      - yopass_internal
+      - yopass_external
     ports:
       - "80:80"
-    command: "--database=redis --redis=redis://:${FRED_REDIS_PASSWORD}@fred_redis:6379/0 --port 80"
+    command: "--database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80"
 
   redis:
     image: redis:latest
-    container_name: fred_redis
+    container_name: yopass_redis
     restart: always
     networks:
-      - fred_internal
+      - yopass_internal
     volumes:
-      - "${FRED_REDIS_CONF}:/etc/redis.conf"
-      - "${FRED_REDIS_DATA}:/data"
-    command: "redis-server /etc/redis.conf --requirepass ${FRED_REDIS_PASSWORD}"
+      - "${YOPASS_REDIS_CONF}:/etc/redis.conf"
+      - "${YOPASS_REDIS_DATA}:/data"
+    command: "redis-server /etc/redis.conf --requirepass ${YOPASS_REDIS_PASSWORD}"
 
 
 networks:
-  fred_internal:
+  yopass_internal:
     internal: true
-  fred_external:
+  yopass_external:
     driver: bridge
     internal: false
