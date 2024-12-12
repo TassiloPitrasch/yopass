@@ -14,7 +14,6 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
   return (
     <div>
       <Typography variant="h4">{t('secret.titleMessage')}</Typography>
-      <Typography>{t('secret.subtitleMessage')}</Typography>
       <Button
         color={copy.error ? 'secondary' : 'primary'}
         onClick={() => copyToClipboard(secret)}
