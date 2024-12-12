@@ -9,6 +9,7 @@ export const Header = () => {
   const base = process.env.PUBLIC_URL || '';
   const home = base + '/#/';
   const upload = base + '/#/upload';
+  // Replace home with base in first href below to force reload when clicking on logo
   return (
     <AppBar position="static" color="transparent" sx={{ marginBottom: 4 }}>
       <Toolbar>
@@ -24,8 +25,8 @@ export const Header = () => {
               }}
               component="img"
               height="40"
-              alt=""
-              src="yopass.svg"
+              alt="Yopass Logo"
+              src={import.meta.env.VITE_LOGO ? import.meta.env.VITE_LOGO : "yopass.svg"}
             />
           </Typography>
         </Link>

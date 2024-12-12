@@ -1,10 +1,11 @@
 import 'dotenv/config';
 
 import react from '@vitejs/plugin-react';
-import { defineConfig, UserConfigExport } from 'vite';
+import { defineConfig, UserConfigExport, loadEnv } from 'vite';
 
 export default defineConfig(() => {
   const PUBLIC_URL = process.env.PUBLIC_URL || '';
+  const env = loadEnv("any", process.cwd(), 'VITE_');
 
   const config: UserConfigExport = {
     plugins: [react()],
@@ -14,6 +15,8 @@ export default defineConfig(() => {
       sourcemap: true,
     },
     define: {
+      // Setting fallback if no custom icon is defined
+      'import.meta.env.VITE_ICON': JSON.stringify(env.VITE_ICON) ?? JSON.stringify("yopass.svg"),
       /*
        * Attention:
        * Only non-sensitive values should be included in this object.
