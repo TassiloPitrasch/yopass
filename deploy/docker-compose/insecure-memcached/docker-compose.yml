@@ -1,15 +1,25 @@
-version: "3.0"
-
 services:
-  memcached:
-    image: memcached
-    restart: always
-    expose:
-      - "11211"
-
   yopass:
-    image: jhaals/yopass
+    image: TassiloPitrasch/yopass:latest
+    container_name: yopass
     restart: always
+    networks:
+      - yopass_internal
+      - yopass_external
     ports:
-      - "127.0.0.1:80:80"
-    command: "--memcached=memcached:11211 --port 80"
+      - "80:80"
+    command: "--database=memcached --memcached=yopass_memcached:11211 --port 80"
+
+  memcached:
+    image: memcached:latest
+    container_name: yopass_memcached
+    restart: always
+    networks:
+      - yopass_internal
+
+networks:
+  yopass_internal:
+    internal: true
+  yopass_external:
+    driver: bridge
+    internal: false

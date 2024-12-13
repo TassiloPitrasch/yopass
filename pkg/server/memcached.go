@@ -20,6 +20,7 @@ type Memcached struct {
 // Get key in memcached
 func (m *Memcached) Get(key string) (yopass.Secret, error) {
 	var s yopass.Secret
+	s.TTL = -1
 
 	r, err := m.Client.Get(key)
 	if err != nil {
