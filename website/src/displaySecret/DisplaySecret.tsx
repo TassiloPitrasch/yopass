@@ -143,12 +143,9 @@ const DisplaySecret = () => {
     );
   }
   if (value) {
-    var expiryDate = new Date();
-    expiryDate.setMilliseconds(data.ttl / 1000000);
-
     return (
       <>
-        <Secret secret={value.data as string} fileName={value.filename} expiryDate={expiryDate} oneTime={data.one_time}/>
+        <Secret secret={value.data as string} fileName={value.filename} ttl={data.ttl} oneTime={data.one_time}/>
         {data.one_time ? null : <DeleteSecret url={url} />}
       </>
     );

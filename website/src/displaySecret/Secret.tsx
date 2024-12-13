@@ -111,27 +111,42 @@ const DownloadSecret = ({
 const Secret = ({
   secret,
   fileName,
-  expiryDate,
+  ttl,
   oneTime,
 }: {
   readonly secret: string;
   readonly fileName?: string;
-  readonly expiryDate: Date;
+  readonly ttl: number;
   readonly oneTime: boolean;
 }) => {
+  const { t } = useTranslation();
   if (! oneTime) {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const DateTimeFormat = Intl.DateTimeFormat.supportedLocalesOf([i18n.language], {localeMatcher: "lookup"}) ? i18n.language : "en-US";
 
-    var formattedDate = new Intl.DateTimeFormat(DateTimeFormat, {
+    var expiryDate = new Date();
+    try {
+      
+      if (ttl < 0) {
+        throw RangeError;
+      }
+      else {
+        expiryDate.setMilliseconds(ttl / 1000000);
+      }
+
+      var formattedExpiryDate = new Intl.DateTimeFormat(DateTimeFormat, {
         dateStyle: 'full',
         timeStyle: 'long',
         timeZone: timeZone,
       }).format(expiryDate);
-    var notice = "This secret will expire on " + formattedDate + ". Be sure to copy/download it until then!";
+      var notice = t('secret.expiresOn', {formattedExpiryDate: formattedExpiryDate});;
+    }
+    catch(RangeError) {
+      var notice = t('secret.expireUnkown');
+    }
   }
   else {
-    var notice = "This secret is one-time only. It's not stored anywhere anymore. Be sure to copy/download it NOW!";
+    var notice = t('secret.oneTime');
   }
   if (fileName) {
     return <DownloadSecret fileName={fileName} secret={secret} notice={notice}/>;

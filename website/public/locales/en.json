@@ -46,7 +46,10 @@
   "secret": {
     "titleFile": "File downloaded",
     "titleMessage": "Decrypted message",
-    "buttonCopy": "Copy"
+    "buttonCopy": "Copy",
+    "expiresOn": "This secret will expire on {{formattedExpiryDate}}. Be sure to copy/download it until then!",
+    "expireUnkown": "Could not parse the secret's remaining time-to-live. Be sure to copy/download the secret NOW!",
+    "oneTime": "This secret is one-time only. It's not stored anywhere anymore. Be sure to copy/download it NOW!"
   },
   "delete": {
     "buttonDelete": "Delete",
