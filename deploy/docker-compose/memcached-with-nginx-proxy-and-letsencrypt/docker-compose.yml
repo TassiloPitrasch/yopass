@@ -1,0 +1,65 @@
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: yopass_nginx_proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - yopass_internal
+      - yopass_external
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: yopass_nginx_proxy_companion
+    restart: always
+    networks:
+      - yopass_external
+    volumes:
+      - acme.sh:/etc/acme.sh
+      - certs:/etc/nginx/certs
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  yopass:
+    image: TassiloPitrasch/yopass
+    container_name: yopass
+    depends_on:
+      - yopass_memcached
+    restart: always
+    environment:
+      - VIRTUAL_HOST=subdomain.yourdomain.tld
+      - LETSENCRYPT_HOST=subdomain.yourdomain.tld
+      - LETSENCRYPT_EMAIL=mail@yourdomain.tld
+    command: "--memcached=yopass_memcached:11211 --port 80"
+
+  yopass_memcached:
+    image: memcached
+    container_name: yopass_memcached
+    restart: always
+    networks:
+      - yopass_internal
+
+networks:
+  yopass_internal:
+    internal: true
+  yopass_external:
+    driver: bridge
+    internal: false
+
+# yamllint disable rule:empty-values
+volumes:
+  certs:
+  vhost.d:
+  html:
+  acme.sh:
+# yamllint enable rule:empty-values

@@ -1,12 +1,14 @@
-version: '3.0'
-
 services:
   nginx-proxy:
     image: jwilder/nginx-proxy
+    container_name: yopass_nginx_proxy
     restart: always
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - yopass_internal
+      - yopass_external
     volumes:
       - certs:/etc/nginx/certs
       - vhost.d:/etc/nginx/vhost.d
@@ -17,7 +19,10 @@ services:
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: yopass_nginx_proxy_companion
     restart: always
+    networks:
+      - yopass_external
     volumes:
       - acme.sh:/etc/acme.sh
       - certs:/etc/nginx/certs
@@ -25,22 +30,35 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  memcached:
-    image: memcached
-    restart: always
-    expose:
-      - "11211"
-
   yopass:
-    image: jhaals/yopass
+    image: TassiloPitrasch/yopass
+    container_name: yopass
+    depends_on:
+      - yopass_redis
     restart: always
     environment:
       - VIRTUAL_HOST=subdomain.yourdomain.tld
       - LETSENCRYPT_HOST=subdomain.yourdomain.tld
       - LETSENCRYPT_EMAIL=mail@yourdomain.tld
-    command: "--memcached=memcached:11211 --port 80"
-    expose:
-      - "80"
+    command: "--database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80"
+
+  yopass_redis:
+    image: redis
+    container_name: yopass_redis
+    restart: always
+    networks:
+      - yopass_internal
+    volumes:
+      - "${YOPASS_REDIS_CONF}:/etc/redis.conf"
+      - "${YOPASS_REDIS_DATA}:/data"
+    command: "redis-server /etc/redis.conf --requirepass ${YOPASS_REDIS_PASSWORD}"
+
+networks:
+  yopass_internal:
+    internal: true
+  yopass_external:
+    driver: bridge
+    internal: false
 
 # yamllint disable rule:empty-values
 volumes:

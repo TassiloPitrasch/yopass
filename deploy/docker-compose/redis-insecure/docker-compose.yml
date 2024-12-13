@@ -1,7 +1,9 @@
 services:
   yopass:
-    image: TassiloPitrasch/yopass:latest
+    image: TassiloPitrasch/yopass
     container_name: yopass
+    depends_on:
+      - yopass_redis
     restart: always
     networks:
       - yopass_internal
@@ -10,8 +12,8 @@ services:
       - "80:80"
     command: "--database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80"
 
-  redis:
-    image: redis:latest
+  yopass_redis:
+    image: redis
     container_name: yopass_redis
     restart: always
     networks:
@@ -20,7 +22,6 @@ services:
       - "${YOPASS_REDIS_CONF}:/etc/redis.conf"
       - "${YOPASS_REDIS_DATA}:/data"
     command: "redis-server /etc/redis.conf --requirepass ${YOPASS_REDIS_PASSWORD}"
-
 
 networks:
   yopass_internal:
