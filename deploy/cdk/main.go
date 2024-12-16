@@ -48,6 +48,7 @@ func NewDynamo(tableName string) server.Database {
 // Get item from dynamo
 func (d *Dynamo) Get(key string) (yopass.Secret, error) {
 	var s yopass.Secret
+	s.TTL = -1
 	input := &dynamodb.GetItemInput{
 		Key: map[string]*dynamodb.AttributeValue{
 			"id": {
