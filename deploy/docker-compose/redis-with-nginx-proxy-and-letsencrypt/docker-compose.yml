@@ -36,6 +36,8 @@ services:
     depends_on:
       - yopass_redis
     restart: always
+    networks:
+      - yopass_internal
     environment:
       - VIRTUAL_HOST=subdomain.yourdomain.tld
       - LETSENCRYPT_HOST=subdomain.yourdomain.tld
