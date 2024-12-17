@@ -1,6 +1,6 @@
 services:
   yopass:
-    image: TassiloPitrasch/yopass
+    image: tassilopitrasch/yopass
     container_name: yopass
     depends_on:
       - yopass_redis
