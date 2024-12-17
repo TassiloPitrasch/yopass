@@ -31,7 +31,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   yopass:
-    image: TassiloPitrasch/yopass
+    image: tassilopitrasch/yopass
     container_name: yopass
     depends_on:
       - yopass_memcached
