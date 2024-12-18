@@ -1,19 +1,25 @@
+#
 ![Yopass-horizontal](https://user-images.githubusercontent.com/37777956/59544367-0867aa80-8f09-11e9-8d6a-02008e1bccc7.png)
 
 # Yopass - Share Secrets Securely
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/jhaals/yopass)](https://goreportcard.com/report/github.com/jhaals/yopass)
-[![codecov](https://codecov.io/gh/jhaals/yopass/branch/master/graph/badge.svg)](https://codecov.io/gh/jhaals/yopass)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jhaals/yopass?sort=semver)
+**Please note: This is a fork. The main differences to the [original project](https://github.com/jhaals/yopass):**
 
-![demo](https://ydemo.netlify.com/yopass-demo.gif)
+ 1. The expiration time can be set to (nearly) arbitrary values: Instead of only allowing an hour, a day or a week, the application's API accepts values between **five minutes and 31 days**. This is reflected both on the website (with the new option "One month") as well as in the command-line tool, which accepts a range of values (see [Command-line interface](#command-line-interface) for the details).
+ 2. A secret's **remaining time-to-live (TTL) is displayed** when the secret is decrypted successfully. Note that this only works if using a **Redis-database**. For one-time secrets, the notice to store/download is enhanced.
+ 3. The **application's style is now easier to adapt**: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See [Style](#style) for more details.
+ 4. **Deployment via Docker (compose)** was modified in several ways:
+	 * A compose-file to securely deploy yopass with a Redis-database behind an nginx-proxy is available.
+	 * Networking was reworked to better separate proxy, application and database.
+	 * Added the **mandatory mapping** of a configuration-file and data directory in the compose-files for Redis. A password must also be provided via the environment. See [Docker Compose](#docker-compose).
+5. The other possibilities to deploy yopass were adapted to reflect the changes above.
 
 Yopass is a project for sharing secrets in a quick and secure manner\*.
 The sole purpose of Yopass is to minimize the amount of passwords floating around in ticket management systems, Slack messages and emails. The message is encrypted/decrypted locally in the browser and then sent to yopass without the decryption key which is only visible once during encryption, yopass then returns a one-time URL with specified expiry date.
 
 There is no perfect way of sharing secrets online and there is a trade off in every implementation. Yopass is designed to be as simple and "dumb" as possible without compromising on security. There's no mapping between the generated UUID and the user that submitted the encrypted message. It's always best to send all the context except password over another channel.
 
-**[Demo available here](https://yopass.se)**. It's recommended to host yopass yourself if you care about security.
+**[Demo available here](https://yopass.pitrasch.se)**. It's recommended to host yopass yourself if you care about security.
 
 - End-to-End encryption using [OpenPGP](https://openpgpjs.org/)
 - Secrets can only be viewed once
@@ -42,13 +48,13 @@ $ yopass --help
 Yopass - Secure sharing for secrets, passwords and files
 
 Flags:
-      --api string          Yopass API server location (default "https://api.yopass.se")
+      --api string          Yopass API server location (default "localhost")
       --decrypt string      Decrypt secret URL
-      --expiration string   Duration after which secret will be deleted [1h, 1d, 1w] (default "1h")
+      --expiration string   Duration after which secret will be deleted [in [s]econds, [m]inutes, [h]ours, [d]ays, [w]eeks] (default "1h", minimum "5m", maximum "31d")
       --file string         Read secret from file instead of stdin
       --key string          Manual encryption/decryption key
       --one-time            One-time download (default true)
-      --url string          Yopass public URL (default "https://yopass.se")
+      --url string          Yopass public URL (default "localhost")
 
 Settings are read from flags, environment variables, or a config file located at
 ~/.config/yopass/defaults.<json,toml,yml,hcl,ini,...> in this order. Environment
@@ -101,10 +107,10 @@ Encrypted secrets can be stored either in Memcached or Redis by changing the `--
 
 ### Docker Compose
 
-Use the Docker Compose file `deploy/with-nginx-and-letsencrypt/docker-compose.yml` to set up a yopass instance with TLS transport encryption and certificate auto renewal using [Let's Encrypt](https://letsencrypt.org/). First point your domain to the host you want to run yopass on. Then replace the placeholder values for `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` in `deploy/with-nginx-and-letsencrypt/docker-compose.yml` with your values. Afterwards change the directory to `deploy/with-nginx-and-letsencrypt` and start the containers with:
+Use the Docker Compose files `deploy/redis-with-nginx-and-letsencrypt/docker-compose.yml` or `deploy/memcached-with-nginx-and-letsencrypt/docker-compose.yml` to set up a yopass instance with TLS transport encryption and certificate auto renewal using [Let's Encrypt](https://letsencrypt.org/). First point your domain to the host you want to run yopass on. Then replace the placeholder values for `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` in the respective docker-compose-file with your values. Afterwards change to the corresponding directory and start the containers with:
 
 ```console
-docker-compose up -d
+docker-compose up (--env-file ENV-FILE) -d
 ```
 
 Yopass will then be available under the domain you specified through `VIRTUAL_HOST` / `LETSENCRYPT_HOST`.
@@ -112,11 +118,23 @@ Yopass will then be available under the domain you specified through `VIRTUAL_HO
 Advanced users that already have a reverse proxy handling TLS connections can use the `insecure` setup:
 
 ```console
-cd deploy/docker/compose/insecure
-docker-compose up -d
+cd deploy/docker/compose/redis-insecure OR
+cd deploy/docker/compose/memcached-insecure
+docker-compose up (--env-file ENV-FILE) -d
 ```
-
+**Be sure to set your environment-file if using a Redis-database.**
 Afterwards point your reverse proxy to `127.0.0.1:80`.
+
+#### Using a Redis database
+
+In order to use Redis for storing the encrypted secrets, a configuration-file (usually named `redis.conf`) and a data-directory (commonly `redis-data/`) are mapped from the host to the database-container. The mapping of the data-directory ensures that secrets don't get lost on a container restart. Additionally, a password for the connection between yopass and Redis must also be defined. The easiest way to accomplish this is to use an environment file, structured as follows:
+
+    YOPASS_REDIS_PASSWORD=strong_password
+    YOPASS_REDIS_CONF=/path/to/yopass/redis.conf
+    YOPASS_REDIS_DATA=/path/to/yopass/redis-data
+
+To adopt these settings, use the `--env-file` flag of `docker-compose`.
+Advanced users might skip on this by modifying the compose-files.
 
 ### Docker
 
@@ -163,6 +181,16 @@ Supported metrics:
 [openmetrics]: https://openmetrics.io/
 [prometheus]: https://prometheus.io/
 [process metrics]: https://prometheus.io/docs/instrumenting/writing_clientlibs/#process-metrics
+
+## Style
+
+If building the yopass Docker Image yourself, the application's style can easily be adapted by using environment variables. The respective file should be located in `website`.  See below for an example.
+
+    VITE_PRIMARY_COLOR="#607d8b3"
+    VITE_LOGO="custom/logo.svg"
+    VITE_ICON="custom/icon.svg"
+
+ The resources for the icon and logo should be stored in `public/custom` (so that yopass will host them under the `/custom` endpoint referenced above).
 
 ## Translations
 
