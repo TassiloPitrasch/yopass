@@ -10,7 +10,7 @@ services:
       - yopass_external
     ports:
       - "80:80"
-    command: "--database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80"
+    command: "--database=redis --redis=redis://yopass_redis:6379/0 --port 80"
 
   yopass_redis:
     image: redis
@@ -19,9 +19,8 @@ services:
     networks:
       - yopass_internal
     volumes:
-      - "${YOPASS_REDIS_CONF}:/etc/redis.conf"
-      - "${YOPASS_REDIS_DATA}:/data"
-    command: "redis-server /etc/redis.conf --requirepass ${YOPASS_REDIS_PASSWORD}"
+      - "yopass_redis_data:/data"
+    command: "redis-server"
 
 networks:
   yopass_internal:
@@ -29,3 +28,6 @@ networks:
   yopass_external:
     driver: bridge
     internal: false
+
+volumes:
+  yopass_redis_data:

@@ -10,8 +10,8 @@
  3. The **application's style is now easier to adapt**: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See [Style](#style) for more details.
  4. **Deployment via Docker (compose)** was modified in several ways:
 	 * A compose-file to securely deploy yopass with a Redis-database behind an nginx-proxy is available.
+	 * For Redis, the data is stored in a separate volume to allow persistence after shutdowns/restarts.
 	 * Networking was reworked to better separate proxy, application and database.
-	 * Added the **mandatory mapping** of a configuration-file and data directory in the compose-files for Redis. A password must also be provided via the environment. See [Docker Compose](#docker-compose).
 5. The other possibilities to deploy yopass were adapted to reflect the changes above.
 
 Yopass is a project for sharing secrets in a quick and secure manner\*.
@@ -110,7 +110,7 @@ Encrypted secrets can be stored either in Memcached or Redis by changing the `--
 Use the Docker Compose files `deploy/redis-with-nginx-and-letsencrypt/docker-compose.yml` or `deploy/memcached-with-nginx-and-letsencrypt/docker-compose.yml` to set up a yopass instance with TLS transport encryption and certificate auto renewal using [Let's Encrypt](https://letsencrypt.org/). First point your domain to the host you want to run yopass on. Then replace the placeholder values for `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` in the respective docker-compose-file with your values. Afterwards change to the corresponding directory and start the containers with:
 
 ```console
-docker-compose up (--env-file ENV-FILE) -d
+docker-compose up -d
 ```
 
 Yopass will then be available under the domain you specified through `VIRTUAL_HOST` / `LETSENCRYPT_HOST`.
@@ -120,22 +120,24 @@ Advanced users that already have a reverse proxy handling TLS connections can us
 ```console
 cd deploy/docker/compose/redis-insecure OR
 cd deploy/docker/compose/memcached-insecure
-docker-compose up (--env-file ENV-FILE) -d
+docker-compose up -d
 ```
-**Be sure to set your environment-file if using a Redis-database.**
+
 Afterwards point your reverse proxy to `127.0.0.1:80`.
 
 #### Using a Redis database
 
-In order to use Redis for storing the encrypted secrets, a configuration-file (usually named `redis.conf`) and a data-directory (commonly `redis-data/`) are mapped from the host to the database-container. The mapping of the data-directory ensures that secrets don't get lost on a container restart. Additionally, a password for the connection between yopass and Redis must also be defined. The easiest way to accomplish this is to use an environment file, structured as follows:
+If using Redis as the database, the data is stored in a Docker volume named `yopass_redis_data` to allow secrets to persist after container restarts.
+Advanced users might want to protect their database with a password, which can be defined in the connection strings:
 
-    YOPASS_REDIS_PASSWORD=strong_password
-    YOPASS_REDIS_CONF=/path/to/yopass/redis.conf
-    YOPASS_REDIS_DATA=/path/to/yopass/redis-data
+```
+command: --database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80 (for the yopass container)
+command: redis-server -requirepass ${YOPASS_REDIS_PASSWORD} (for the Redis container)
+```
 
-To adopt these settings, use the `--env-file` flag of `docker-compose`.
-Advanced users might skip on this by modifying the compose-files.
+To change the general Redis settings, a configuration-file (usually named `redis.conf`) can be used: `redis-server /etc/redis.conf`; the respective file must of course be available in the container.
 
+Above set-ups should use environment variables to separate Docker infrastructure and custom settings.
 ### Docker
 
 With TLS encryption
