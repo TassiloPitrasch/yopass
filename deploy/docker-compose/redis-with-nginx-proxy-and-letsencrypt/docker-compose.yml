@@ -42,7 +42,7 @@ services:
       - VIRTUAL_HOST=subdomain.yourdomain.tld
       - LETSENCRYPT_HOST=subdomain.yourdomain.tld
       - LETSENCRYPT_EMAIL=mail@yourdomain.tld
-    command: "--database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80"
+    command: "--database=redis --redis=redis://yopass_redis:6379/0 --port 80"
 
   yopass_redis:
     image: redis
@@ -51,9 +51,8 @@ services:
     networks:
       - yopass_internal
     volumes:
-      - "${YOPASS_REDIS_CONF}:/etc/redis.conf"
-      - "${YOPASS_REDIS_DATA}:/data"
-    command: "redis-server /etc/redis.conf --requirepass ${YOPASS_REDIS_PASSWORD}"
+      - "yopass_redis_data:/data"
+    command: "redis-server /etc/redis.conf"
 
 networks:
   yopass_internal:
@@ -64,6 +63,7 @@ networks:
 
 # yamllint disable rule:empty-values
 volumes:
+  yopass_redis_data:
   certs:
   vhost.d:
   html:
