@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v7"
-	"github.com/jhaals/yopass/pkg/yopass"
+	"github.com/tassilopitrasch/yopass/pkg/yopass"
 )
 
 // NewRedis returns a new Redis database client
