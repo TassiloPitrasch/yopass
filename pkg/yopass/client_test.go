@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/tassilopitrasch/yopass/pkg/server"
-	"github.com/tassilopitrasch/yopass/pkg/yopass"
+	"github.com/TassiloPitrasch/yopass/pkg/server"
+	"github.com/TassiloPitrasch/yopass/pkg/yopass"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

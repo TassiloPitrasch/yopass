@@ -10,7 +10,7 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/tassilopitrasch/yopass/pkg/yopass"
+	"github.com/TassiloPitrasch/yopass/pkg/yopass"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.uber.org/zap"
 )

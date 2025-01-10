@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/tassilopitrasch/yopass/pkg/yopass"
+	"github.com/TassiloPitrasch/yopass/pkg/yopass"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
