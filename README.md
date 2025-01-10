@@ -81,7 +81,7 @@ The following options are currently available to install the CLI locally.
 - Compile from source (needs Go >= v1.15)
 
   ```console
-  go install github.com/jhaals/yopass/cmd/yopass@latest
+  go install github.com/tassilopitrasch/yopass/cmd/yopass@latest
   ```
 
 ## Installation / Configuration
@@ -145,7 +145,7 @@ With TLS encryption
 ```console
 docker run --name memcached_yopass -d memcached
 docker run -p 443:1337 -v /local/certs/:/certs \
-    --link memcached_yopass:memcached -d jhaals/yopass --memcached=memcached:11211 --tls-key=/certs/tls.key --tls-cert=/certs/tls.crt
+    --link memcached_yopass:memcached -d tassilopitrasch/yopass --memcached=memcached:11211 --tls-key=/certs/tls.key --tls-cert=/certs/tls.crt
 ```
 
 Afterwards yopass will be available on port 443 through all IP addresses of the host, including public ones. If you want to limit the availability to a specific IP address use `-p` like so: `-p 127.0.0.1:443:1337`.
@@ -154,7 +154,7 @@ Without TLS encryption (needs a reverse proxy for transport encryption):
 
 ```console
 docker run --name memcached_yopass -d memcached
-docker run -p 127.0.0.1:80:1337 --link memcached_yopass:memcached -d jhaals/yopass --memcached=memcached:11211
+docker run -p 127.0.0.1:80:1337 --link memcached_yopass:memcached -d tassilopitrasch/yopass --memcached=memcached:11211
 ```
 
 Afterwards point your reverse proxy that handles the TLS connections to `127.0.0.1:80`.
