@@ -1,6 +1,6 @@
 package server
 
-import "github.com/tassilopitrasch/yopass/pkg/yopass"
+import "github.com/TassiloPitrasch/yopass/pkg/yopass"
 
 // Database interface
 type Database interface {

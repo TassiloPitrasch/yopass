@@ -1,4 +1,4 @@
-module github.com/tassilopitrasch/yopass
+module github.com/TassiloPitrasch/yopass
 
 go 1.21
 

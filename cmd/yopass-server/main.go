@@ -14,7 +14,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/tassilopitrasch/yopass/pkg/server"
+	"github.com/TassiloPitrasch/yopass/pkg/server"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/collectors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
