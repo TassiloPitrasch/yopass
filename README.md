@@ -154,11 +154,7 @@ Without TLS encryption (needs a reverse proxy for transport encryption):
 
 ```console
 docker run --name memcached_yopass -d memcached
-<<<<<<< HEAD
 docker run -p 127.0.0.1:80:1337 --link memcached_yopass:memcached -d TassiloPitrasch/yopass --memcached=memcached:11211
-=======
-docker run -p 127.0.0.1:80:1337 --link memcached_yopass:memcached -d tassilopitrasch/yopass --memcached=memcached:11211
->>>>>>> 5cd41f647b41d0cdb2d8e1a7fdc25afeb8f0def9
 ```
 
 Afterwards point your reverse proxy that handles the TLS connections to `127.0.0.1:80`.
