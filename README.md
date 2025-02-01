@@ -132,7 +132,7 @@ Advanced users might want to protect their database with a password, which can b
 
 ```
 command: --database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_redis:6379/0 --port 80 (for the yopass container)
-command: redis-server -requirepass ${YOPASS_REDIS_PASSWORD} (for the Redis container)
+command: redis-server --requirepass ${YOPASS_REDIS_PASSWORD} (for the Redis container)
 ```
 
 To change the general Redis settings, a configuration-file (usually named `redis.conf`) can be used: `redis-server /etc/redis.conf`; the respective file must of course be available in the container.
