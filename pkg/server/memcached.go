@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/bradfitz/gomemcache/memcache"
-	"github.com/jhaals/yopass/pkg/yopass"
+	"github.com/TassiloPitrasch/yopass/pkg/yopass"
 )
 
 // NewMemcached returns a new memcached database client

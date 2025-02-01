@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jhaals/yopass/pkg/yopass"
+	"github.com/TassiloPitrasch/yopass/pkg/yopass"
 )
 
 func TestMemcached(t *testing.T) {
