@@ -44,7 +44,7 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
 	  >{(showQr ? t('secret.hideQrCode') : t('secret.showQrCode'))}</Button>
       <Box sx={{ display:(showQr ? "flex" : "none"), justifyContent:"center", alignItems:"center", margin:5 }}>
         <QRCode
-          size={512}
+          size={150}
           style={{ height: "auto" }}
           value={secret}
         />
