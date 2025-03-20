@@ -39,15 +39,18 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
       >
         {secret}
       </Typography>
-	  <Button
-	  	onClick={() => setShowQr(!showQr)}
-	  >{(showQr ? t('secret.hideQrCode') : t('secret.showQrCode'))}</Button>
-      <Box sx={{ display:(showQr ? "flex" : "none"), justifyContent:"center", alignItems:"center", margin:5 }}>
-        <QRCode
-          size={150}
-          style={{ height: "auto" }}
-          value={secret}
-        />
+      <Button onClick={() => setShowQr(!showQr)}>
+        {showQr ? t('secret.hideQrCode') : t('secret.showQrCode')}
+      </Button>
+      <Box
+        sx={{
+          display: showQr ? 'flex' : 'none',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: 5,
+        }}
+      >
+        <QRCode size={150} style={{ height: 'auto' }} value={secret} />
       </Box>
       <Typography
         id="notice"
