@@ -3,16 +3,15 @@ import { Route, Routes } from 'react-router-dom';
 import CreateSecret from './createSecret/CreateSecret';
 import DisplaySecret from './displaySecret/DisplaySecret';
 import Upload from './createSecret/Upload';
+import { useConfig } from './shared/ConfigContext';
 
 export const Routing = () => {
-  const fileUpload = process.env.YOPASS_DISABLE_FILE_UPLOAD !== '1';
   const oneClickLink = process.env.YOPASS_DISABLE_ONE_CLICK_LINK !== '1';
+  const { DISABLE_UPLOAD } = useConfig();
   return (
     <Routes>
       <Route path="/" element={<CreateSecret />} />
-      {fileUpload && (
-        <Route path="/upload" element={<Upload />} />
-      )}
+      {!DISABLE_UPLOAD && <Route path="/upload" element={<Upload />} />}
       {oneClickLink && (
         <Route path="/:format/:key/:password" element={<DisplaySecret />} />
       )}
