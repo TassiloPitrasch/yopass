@@ -3,9 +3,9 @@ module github.com/yopass/yopass-lambda
 replace github.com/TassiloPitrasch/yopass => ../../
 
 require (
+	github.com/TassiloPitrasch/yopass v0.0.0-20211210123441-30470001a8f2
 	github.com/akrylysov/algnhsa v0.12.1
 	github.com/aws/aws-sdk-go v1.42.22
-	github.com/TassiloPitrasch/yopass v0.0.0-20211210123441-30470001a8f2
 	github.com/prometheus/client_golang v1.20.5
 	go.uber.org/zap v1.27.0
 )
@@ -26,11 +26,10 @@ require (
 	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/crypto v0.35.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 )
 
 go 1.21
-
-toolchain go1.23.2
+toolchain go1.24.1
