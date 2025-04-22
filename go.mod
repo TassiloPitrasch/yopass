@@ -1,6 +1,7 @@
 module github.com/TassiloPitrasch/yopass
 
-go 1.21
+go 1.21.0
+
 toolchain go1.24.1
 
 require (
