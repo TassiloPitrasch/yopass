@@ -50,6 +50,9 @@
     "expiresOn": "This secret will expire on {{formattedExpiryDate}}. Be sure to copy/download it until then!",
     "expireUnkown": "Could not parse the secret's remaining time-to-live. Be sure to copy/download the secret NOW!",
     "oneTime": "This secret is one-time only. It's not stored anywhere anymore. Be sure to copy/download it NOW!"
+    "subtitleMessage": "This secret might not be viewable again, make sure to save it now!",
+    "showQrCode": "Show QR Code",
+    "hideQrCode": "Hide QR Code"
   },
   "delete": {
     "buttonDelete": "Delete",
