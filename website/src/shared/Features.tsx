@@ -62,7 +62,7 @@ type FeatureProps = {
 
 const Feature = (props: FeatureProps) => {
   return (
-    <Grid item={true} xs={12} md={4}>
+    <Grid item={true} size={{ xs: 12, sm: 6, md: 4 }}>
       <Paper
         sx={{
           display: 'flex',

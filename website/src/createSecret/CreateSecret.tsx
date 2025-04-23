@@ -127,17 +127,17 @@ const CreateSecret = () => {
               />
             )}
           />
-          <Grid container justifyContent="center" marginTop={2}>
+          <Grid container justifyContent="center" marginTop={2} size={{ xs: 12 }}>
             <Expiration control={control} />
           </Grid>
-          <Grid container alignItems="center" direction="column">
+          <Grid container alignItems="center" direction="column" size={{ xs: 12 }}>
             <OneTime control={control} />
             <SpecifyPasswordToggle control={control} />
             {!generateDecryptionKey && (
               <SpecifyPasswordInput control={control} />
             )}
           </Grid>
-          <Grid container justifyContent="center">
+          <Grid container justifyContent="center" size={{ xs: 12 }}>
             <Box p={2} pb={4}>
               <Button
                 onClick={() => handleSubmit(onSubmit)()}
