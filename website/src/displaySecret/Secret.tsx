@@ -5,6 +5,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { useCopyToClipboard } from 'react-use';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
+import i18n from '../i18n';
 import QRCode from 'react-qr-code';
 
 const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly notice: string }) => {

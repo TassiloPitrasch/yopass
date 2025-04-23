@@ -1,8 +1,6 @@
 module github.com/TassiloPitrasch/yopass
 
-go 1.23.0
-
-toolchain go1.24.1
+go 1.24.1
 
 require (
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
