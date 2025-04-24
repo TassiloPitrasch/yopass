@@ -35,6 +35,10 @@ export default defineConfig(() => {
           process.env.YOPASS_DISABLE_FEATURES_CARDS,
         YOPASS_DISABLE_ONE_CLICK_LINK:
           process.env.YOPASS_DISABLE_ONE_CLICK_LINK,
+        YOPASS_DISABLE_FILE_UPLOAD:
+          process.env.YOPASS_DISABLE_FILE_UPLOAD,
+        YOPASS_DISABLE_QR_CODE:
+          process.env.YOPASS_DISABLE_QR_CODE
       },
     },
     server: {
