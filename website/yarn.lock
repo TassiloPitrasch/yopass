@@ -3513,7 +3513,7 @@ qs@6.14.0:
   dependencies:
     side-channel "^1.1.0"
 
-react-dom@19.1.0:
+react-dom@^19.1.0:
   version "19.1.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-19.1.0.tgz#133558deca37fa1d682708df8904b25186793623"
   integrity sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==
@@ -3534,10 +3534,10 @@ react-hook-form@^7.56.1:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.56.1.tgz#45b2040fef997b873d656959d2e7f864f35bf95d"
   integrity sha512-qWAVokhSpshhcEuQDSANHx3jiAEFzu2HAaaQIzi/r9FNPm1ioAvuJSD4EuZzWd7Al7nTRKcKPnBKO7sRn+zavQ==
 
-react-i18next@^15.4.1:
-  version "15.4.1"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.4.1.tgz#33f3e89c2f6c68e2bfcbf9aa59986ad42fe78758"
-  integrity sha512-ahGab+IaSgZmNPYXdV1n+OYky95TGpFwnKRflX/16dY04DsYYKHtVLjeny7sBSCREEcoMbAgSkFiGLF5g5Oofw==
+react-i18next@^15.5.1:
+  version "15.5.1"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.5.1.tgz#ceada755a0b6691432b6b6dc5dad454fd3d158e3"
+  integrity sha512-C8RZ7N7H0L+flitiX6ASjq9p5puVJU1Z8VyL3OgM/QOMRf40BMZX+5TkpxzZVcTmOLPX5zlti4InEX5pFyiVeA==
   dependencies:
     "@babel/runtime" "^7.25.0"
     html-parse-stringify "^3.0.1"
@@ -4034,7 +4034,7 @@ stacktrace-js@^2.0.2:
     stack-generator "^2.0.5"
     stacktrace-gps "^3.0.4"
 
-start-server-and-test@^2.0.11:
+start-server-and-test@^2.0.10:
   version "2.0.11"
   resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.11.tgz#e04da9206acc80960339c04171f82c3a4d0a568c"
   integrity sha512-TN39gLzPhHAflxyOkE/oMfQGj+pj3JgF6qVicFH/JrXt7xXktidKXwqfRga+ve7lVA8+RgPZVc25VrEPRScaDw==
