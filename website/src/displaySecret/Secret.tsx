@@ -11,6 +11,7 @@ import QRCode from 'react-qr-code';
 const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly notice: string }) => {
   const { t } = useTranslation();
   const [copy, copyToClipboard] = useCopyToClipboard();
+  const qrCode = process.env.YOPASS_DISABLE_QR_CODE !== '1';
   const [showQr, setShowQr] = useState(false);
 
   return (
@@ -40,19 +41,23 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
       >
         {secret}
       </Typography>
-      <Button onClick={() => setShowQr(!showQr)}>
-        {showQr ? t('secret.hideQrCode') : t('secret.showQrCode')}
-      </Button>
-      <Box
-        sx={{
-          display: showQr ? 'flex' : 'none',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: 5,
-        }}
-      >
-        <QRCode size={150} style={{ height: 'auto' }} value={secret} />
-      </Box>
+      {qrCode && (
+        <>
+          <Button onClick={() => setShowQr(!showQr)}>
+            {showQr ? t('secret.hideQrCode') : t('secret.showQrCode')}
+          </Button>
+          <Box
+            sx={{
+              display: showQr ? 'flex' : 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
+              margin: 5,
+            }}
+          >
+            <QRCode size={150} style={{ height: 'auto' }} value={secret} />
+          </Box>
+        </>
+      )}
       <Typography
         id="notice"
         data-test-id="preformatted-text-message"

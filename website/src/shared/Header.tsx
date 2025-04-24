@@ -9,6 +9,7 @@ export const Header = () => {
   const base = process.env.PUBLIC_URL || '';
   const home = base + '/#/';
   const upload = base + '/#/upload';
+  const fileUpload = process.env.YOPASS_DISABLE_FILE_UPLOAD !== '1';
   // Replace home with base in first href below to force reload when clicking on logo
   return (
     <AppBar position="static" color="transparent" sx={{ marginBottom: 4 }}>
@@ -30,20 +31,24 @@ export const Header = () => {
             />
           </Typography>
         </Link>
-        <Box
-          sx={{
-            marginLeft: 'auto',
-          }}
-        >
-          <Button
-            component={Link}
-            href={isOnUploadPage ? home : upload}
-            variant="contained"
-            color="primary"
-          >
-            {isOnUploadPage ? t('header.buttonHome') : t('header.buttonUpload')}
-          </Button>
-        </Box>
+        {fileUpload && (
+          <>
+            <Box
+              sx={{
+                marginLeft: 'auto',
+              }}
+             >
+               <Button
+                 component={Link}
+                 href={isOnUploadPage ? home : upload}
+                 variant="contained"
+                 color="primary"
+               >
+                 {isOnUploadPage ? t('header.buttonHome') : t('header.buttonUpload')}
+               </Button>
+             </Box>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );
