@@ -10,15 +10,16 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { ModeToggle } from './ModeToggle';
+import { useConfig } from './ConfigContext';
 
 export const Header = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { DISABLE_UPLOAD } = useConfig();
   const isOnUploadPage = location.pathname.includes('upload');
   const base = process.env.PUBLIC_URL || '';
   const home = base + '/#/';
   const upload = base + '/#/upload';
-  const fileUpload = process.env.YOPASS_DISABLE_FILE_UPLOAD !== '1';
   // Replace home with base in first href below to force reload when clicking on logo
   return (
     <AppBar position="static" color="default" sx={{ marginBottom: 4 }}>
@@ -40,27 +41,27 @@ export const Header = () => {
             />
           </Typography>
         </Link>
-        {fileUpload && (
-          <>
-            <Stack
-              direction="row"
-              gap={2}
-              sx={{
-                marginLeft: 'auto',
-              }}
+        <Stack
+          direction="row"
+          gap={2}
+          sx={{
+            marginLeft: 'auto',
+          }}
+        >
+          <ModeToggle />
+          {!DISABLE_UPLOAD && (
+            <Button
+              component={Link}
+              href={isOnUploadPage ? home : upload}
+              variant="contained"
+              color="primary"
             >
-              <ModeToggle />
-              <Button
-                component={Link}
-                href={isOnUploadPage ? home : upload}
-                variant="contained"
-                color="primary"
-              >
-                {isOnUploadPage ? t('header.buttonHome') : t('header.buttonUpload')}
-              </Button>
-            </Stack>
-          </>
-        )}
+              {isOnUploadPage
+                ? t('header.buttonHome')
+                : t('header.buttonUpload')}
+            </Button>
+          )}
+        </Stack>
       </Toolbar>
     </AppBar>
   );
