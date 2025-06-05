@@ -10,6 +10,10 @@ theme = createTheme({
         background: {
           default: '#222',
         },
+        notice: {
+          background: '#e60000',
+          border: '#ffe6e6',
+        },
       },
     },
     light: {
@@ -17,6 +21,10 @@ theme = createTheme({
         primary: blueGrey,
         background: {
           paper: '#ecf0f1',
+        },
+        notice: {
+          background: '#ffe6e6',
+          border: '#e60000',
         },
       },
     },
