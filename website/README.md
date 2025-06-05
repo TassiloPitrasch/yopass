@@ -47,5 +47,4 @@ PUBLIC_URL='https://my-domain.com' REACT_APP_BACKEND_URL='http://api.my-domain.c
 
 - `YOPASS_DISABLE_FEATURES_CARDS=1` - Allows disabling Features cards
 - `YOPASS_DISABLE_ONE_CLICK_LINK=1` - Allows disabling "One-click link" support
-- `YOPASS_DISABLE_FILE_UPLOAD=1` - Allows disabling the file upload function
 - `YOPASS_DISABLE_QR_CODE=1` - Allows disabling the display of the secret as a QR-code

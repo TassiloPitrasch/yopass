@@ -16,8 +16,6 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { Grid, Typography, useTheme } from '@mui/material';
 
-const fileUpload = process.env.YOPASS_DISABLE_FILE_UPLOAD !== '1';
-
 const Upload = () => {
   const maxSize = 1024 * 500;
   const [error, setError] = useState('');
