@@ -29,7 +29,7 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
         id="pre"
         data-test-id="preformatted-text-secret"
         sx={{
-          backgroundColor: '#ecf0f1',
+          backgroundColor: palette.background.default,
           padding: '15px',
           border: '1px solid #cccccc',
           display: 'block',
@@ -70,10 +70,11 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
         id="notice"
         data-test-id="preformatted-text-message"
         sx={{
-          backgroundColor: '#ffe6e6',
+          backgroundColor: palette.notice.background,
           margin: '10px',
           padding: '15px',
-          border: '2px solid #e60000',
+          border: '2px solid',
+          borderColor: palette.notice.border,
           display: 'block',
           fontSize: '1rem',
           borderRadius: '4px',
@@ -99,6 +100,7 @@ const DownloadSecret = ({
   readonly notice: string;
 }) => {
   const { t } = useTranslation();
+  const { palette } = useTheme();
 
   useEffect(() => {
     saveAs(
@@ -117,10 +119,11 @@ const DownloadSecret = ({
         id="notice"
         data-test-id="preformatted-text-message"
         sx={{
-          backgroundColor: '#ffe6e6',
+          backgroundColor: palette.notice.background,
           margin: '10px',
           padding: '15px',
-          border: '2px solid #e60000',
+          border: '2px solid',
+          borderColor: palette.notice.border,
           display: 'block',
           fontSize: '1rem',
           borderRadius: '4px',
