@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography, useTheme } from '@mui/material';
 import { useCopyToClipboard } from 'react-use';
 import { saveAs } from 'file-saver';
 import { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
   const [copy, copyToClipboard] = useCopyToClipboard();
   const qrCode = process.env.YOPASS_DISABLE_QR_CODE !== '1';
   const [showQr, setShowQr] = useState(false);
+  const { palette } = useTheme();
 
   return (
     <div>
@@ -20,8 +21,9 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
       <Button
         color={copy.error ? 'secondary' : 'primary'}
         onClick={() => copyToClipboard(secret)}
+        startIcon={<FontAwesomeIcon icon={faCopy} size="xs" />}
       >
-        <FontAwesomeIcon icon={faCopy} /> {t('secret.buttonCopy')}
+        {t('secret.buttonCopy')}
       </Button>
       <Typography
         id="pre"
@@ -54,7 +56,13 @@ const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly no
               margin: 5,
             }}
           >
-            <QRCode size={150} style={{ height: 'auto' }} value={secret} />
+            <QRCode
+              bgColor={palette.background.default}
+              fgColor={palette.text.primary}
+              size={150}
+              style={{ height: 'auto' }}
+             value={secret}
+            />
           </Box>
         </>
       )}

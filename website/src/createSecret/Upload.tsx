@@ -14,7 +14,7 @@ import Result from '../displaySecret/Result';
 import { randomString, uploadFile } from '../utils/utils';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 
 const fileUpload = process.env.YOPASS_DISABLE_FILE_UPLOAD !== '1';
 
@@ -22,6 +22,7 @@ const Upload = () => {
   const maxSize = 1024 * 500;
   const [error, setError] = useState('');
   const { t } = useTranslation();
+  const { palette } = useTheme();
   const [result, setResult] = useState({
     password: '',
     customPassword: false,
@@ -118,7 +119,7 @@ const Upload = () => {
           </Grid>
           <Grid container justifyContent="center">
             <FontAwesomeIcon
-              color={isDragActive ? 'blue' : 'black'}
+              color={isDragActive ? palette.primary.main : palette.text.primary}
               size="8x"
               icon={faFileUpload}
             />

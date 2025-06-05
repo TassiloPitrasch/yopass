@@ -3,17 +3,30 @@ import { blueGrey } from '@mui/material/colors';
 
 var theme: Theme;
 
-if (import.meta.env.VITE_PRIMARY_COLOR) {
-  theme = createTheme({
-    palette: {
-      primary: {
-        main: import.meta.env.VITE_PRIMARY_COLOR,
+theme = createTheme({
+  colorSchemes: {
+    dark: {
+      palette: {
+        background: {
+          default: '#222',
+        },
       },
-    }
-  })
-}
-else {
-  theme = createTheme({palette: {primary: blueGrey}});
+    },
+    light: {
+      palette: {
+        primary: blueGrey,
+        background: {
+          paper: '#ecf0f1',
+        },
+      },
+    },
+  },
+});
+
+
+if (import.meta.env.VITE_PRIMARY_COLOR) {
+  theme.colorSchemes.dark.palette.primary = {main: import.meta.env.VITE_PRIMARY_COLOR};
+  theme.colorSchemes.light.palette.primary = {main: import.meta.env.VITE_PRIMARY_COLOR};
 }
 
 export { theme };
