@@ -11,7 +11,7 @@ import QRCode from 'react-qr-code';
 const RenderSecret = ({ secret, notice }: { readonly secret: string; readonly notice: string }) => {
   const { t } = useTranslation();
   const [copy, copyToClipboard] = useCopyToClipboard();
-  const qrCode = process.env.YOPASS_DISABLE_QR_CODE !== '1';
+  const qrCode = process.env.YOPASS_DISABLE_QR_CODE !== '1' && secret.length < 500;
   const [showQr, setShowQr] = useState(false);
   const { palette } = useTheme();
 
