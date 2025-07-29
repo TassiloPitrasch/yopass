@@ -1,0 +1,34 @@
+services:
+  yopass:
+    image: tassilopitrasch/yopass
+    container_name: yopass
+    depends_on:
+      - yopass_valkey
+    restart: always
+    networks:
+      - yopass_internal
+      - yopass_external
+    ports:
+      - "80:80"
+    command: "--database=redis --redis=redis://yopass_valkey:6379/0 --port 80"
+
+  yopass_valkey:
+    image: valkey/valkey
+    container_name: yopass_valkey
+    restart: always
+    networks:
+      - yopass_internal
+    volumes:
+      - "yopass_valkey_data:/data"
+      - "./valkey.conf:/etc/valkey.conf"
+    command: "valkey-server"
+
+networks:
+  yopass_internal:
+    internal: true
+  yopass_external:
+    driver: bridge
+    internal: false
+
+volumes:
+  yopass_valkey_data:
