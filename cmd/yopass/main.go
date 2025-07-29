@@ -172,6 +172,11 @@ func encryptStdin(in *os.File, out io.Writer) error {
 }
 
 func encrypt(in io.ReadCloser, out io.Writer) error {
+	api := viper.GetString("api")
+	if api == "" {
+		return fmt.Errorf("No Yopass API url set")
+	}
+
 	exp := expiration(viper.GetString("expiration"))
 	if exp == 0 {
 		return fmt.Errorf("Expiration time out of range or malformed")
@@ -187,7 +192,7 @@ func encrypt(in io.ReadCloser, out io.Writer) error {
 		return fmt.Errorf("Failed to encrypt secret: %w", err)
 	}
 
-	id, err := yopass.Store(viper.GetString("api"), yopass.Secret{
+	id, err := yopass.Store(api, yopass.Secret{
 		Expiration: exp,
 		Message:    msg,
 		OneTime:    viper.GetBool("one-time"),
@@ -197,6 +202,9 @@ func encrypt(in io.ReadCloser, out io.Writer) error {
 	}
 
 	url := viper.GetString("url")
+	if url == "" {
+		url = api
+	}
 	_, err = fmt.Fprintln(out, yopass.SecretURL(url, id, key, viper.IsSet("file"), viper.IsSet("key")))
 	return err
 }
