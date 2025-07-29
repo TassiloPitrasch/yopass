@@ -88,6 +88,7 @@ func init() {
 	pflag.String("file", viper.GetString("file"), "Read secret from file instead of stdin")
 	pflag.String("key", viper.GetString("key"), "Manual encryption/decryption key")
 	pflag.Bool("one-time", viper.GetBool("one-time"), "One-time download")
+	pflag.Bool("no-one-time", viper.GetBool("no-one-time"), "Disabling one-time download")
 	pflag.String("url", viper.GetString("url"), "Yopass public URL")
 	viper.BindPFlags(pflag.CommandLine)
 }
@@ -192,10 +193,16 @@ func encrypt(in io.ReadCloser, out io.Writer) error {
 		return fmt.Errorf("Failed to encrypt secret: %w", err)
 	}
 
+	// --no-one-time overwrites the default behaviour
+	one_time := viper.GetBool("one-time")
+	if viper.GetBool("no-one-time") {
+		one_time = false
+	}
+
 	id, err := yopass.Store(api, yopass.Secret{
 		Expiration: exp,
 		Message:    msg,
-		OneTime:    viper.GetBool("one-time"),
+		OneTime:    one_time,
 	})
 	if err != nil {
 		return fmt.Errorf("Failed to store secret: %w", err)
@@ -255,5 +262,21 @@ func parse(args []string, stderr io.Writer) int {
 		fmt.Fprintln(stderr, err)
 		return 1
 	}
+
+	// It's not allowed to have both the one-time and no-one-time flag defined
+	if checkFlagDefined("no-one-time") && checkFlagDefined("one-time") {
+		fmt.Fprintln(stderr, "Contradicting command-line options given")
+                return 1
+	}
+
 	return -1
+}
+
+func checkFlagDefined(flag_name string) (found bool) {
+	pflag.Visit(func(f *pflag.Flag) {
+		if f.Name == flag_name {
+			found = true
+		}
+        })
+	return found
 }
