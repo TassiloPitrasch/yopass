@@ -1,25 +1,15 @@
+
 #
 ![Yopass-horizontal](https://user-images.githubusercontent.com/37777956/59544367-0867aa80-8f09-11e9-8d6a-02008e1bccc7.png)
 
 # Yopass - Share Secrets Securely
 
-**Please note: This is a fork. The main differences to the [original project](https://github.com/jhaals/yopass):**
-
- 1. The expiration time can be set to (nearly) arbitrary values: Instead of only allowing an hour, a day or a week, the application's API accepts values between **five minutes and 31 days**. This is reflected both on the website (with the new option "One month") as well as in the command-line tool, which accepts a range of values (see [Command-line interface](#command-line-interface) for the details).
- 2. A secret's **remaining time-to-live (TTL) is displayed** when the secret is decrypted successfully. Note that this only works if using a **Redis-database**. For one-time secrets, the notice to store/download is enhanced.
- 3. The **application's style is now easier to adapt**: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See [Style](#style) for more details.
- 4. **Deployment via Docker (compose)** was modified in several ways:
-	 * A compose-file to securely deploy yopass with a Redis-database behind an nginx-proxy is available.
-	 * For Redis, the data is stored in a separate volume to allow persistence after shutdowns/restarts.
-	 * Networking was reworked to better separate proxy, application and database.
-5. The other possibilities to deploy yopass were adapted to reflect the changes above.
+**Please note: This is a fork of [jhaals/yopass](https://github.com/jhaals/yopass).**
 
 Yopass is a project for sharing secrets in a quick and secure manner\*.
 The sole purpose of Yopass is to minimize the amount of passwords floating around in ticket management systems, Slack messages and emails. The message is encrypted/decrypted locally in the browser and then sent to yopass without the decryption key which is only visible once during encryption, yopass then returns a one-time URL with specified expiry date.
 
-There is no perfect way of sharing secrets online and there is a trade off in every implementation. Yopass is designed to be as simple and "dumb" as possible without compromising on security. There's no mapping between the generated UUID and the user that submitted the encrypted message. It's always best to send all the context except password over another channel.
-
-**[Demo available here](https://yopass.pitrasch.se)**. It's recommended to host yopass yourself if you care about security.
+**[Demo available here](https://yopass.se)**. It's recommended to host yopass yourself if you care about security.
 
 - End-to-End encryption using [OpenPGP](https://openpgpjs.org/)
 - Secrets can only be viewed once
@@ -28,18 +18,32 @@ There is no perfect way of sharing secrets online and there is a trade off in ev
 - Custom password option
 - Limited file upload functionality
 
-## History
+*There is no perfect way of sharing secrets online and there is a trade off in every implementation. Yopass is designed to be as simple and "dumb" as possible without compromising on security. There's no mapping between the generated UUID and the user that submitted the encrypted message. It's always best to send all the context except password over another channel.
 
-Yopass was first released in 2014 and has since then been maintained by me and contributed to by this fantastic group of [contributors](https://github.com/jhaals/yopass/graphs/contributors). Yopass is used by many large corporations none of which are currently listed in this readme.
-If you are using yopass and want to support other then by code contributions. Give your thanks in an email, consider donating or by giving consent to list your company name as a user of Yopass in this readme(Trusted by)
 
-## Trusted by
+## Differences to the original project
 
-- [Doddle LTD](https://doddle.com)
-- [Spotify](https://spotify.com)
-- [Gumtree Australia](https://www.gumtreeforbusiness.com.au/)
+1. Valkey is supported as a drop-in replacement for Redis. According compose-files have been added.
+2. The expiration time can be set to (nearly) arbitrary values: Instead of only allowing an hour, a day or a week, the application's API accepts values between five minutes and 31 days. This is reflected both on the website (with the new option "One month") as well as in the command-line tool, which accepts the same range of values.
+2. A secret's remaining time-to-live (TTL) is displayed when the secret is decrypted successfully. Note that this only works if using a Redis/Valkey-database. For one-time secrets, the notice to store/download the secret is enhanced.
+3. The application's style is easier to adapt: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See [Style](##Style) for more details.
+4. Deployment via Docker (compose) was modified in several ways:
 
-## Command-line interface
+    - A compose-file to securely deploy yopass with a Redis-database behind an nginx-proxy is available.
+    - For Redis/Valkey, the data is stored in a separate volume to allow persistence after shutdowns/restarts.
+    - Networking was reworked to better separate proxy, application and database.
+
+6. The interface the server used to expose the metrics can be set via the command-line parameter --metrics-address. By default, the same interface is used as for the actual application. This might be useful for the more security-concerned users, as this enables them to host the metrics for local access only (by setting --metrics-address to 127.0.0.1 e.g.).
+7. For more convenience when using the client, two additional mechanics were added:
+
+    - The --no-one-time parameter - which can only be set on the command-line and not during build, via the environment or in one of the configuration-files - works as a more convenient alternative to the clumsy --one-time=False. It overwrites the configurations mentioned beforehand.
+    - The value set for the yopass API also works as a fallback for the URL should URL not be defined anywhere.
+	
+8. Displaying a secret as a QR-code can be disabled by setting the respective environment-variable, similar to deactivating the upload-feature. See the website's README for more details.
+
+
+
+## Client (Command-line interface)
 
 The main motivation of Yopass is to make it easy for everyone to share secrets easily and quickly via a simple web interface. Nevertheless, a command-line interface is provided as well to support use cases where the output of a program needs to be shared.
 
@@ -54,7 +58,8 @@ Flags:
       --file string         Read secret from file instead of stdin
       --key string          Manual encryption/decryption key
       --one-time            One-time download (default true)
-      --url string          Yopass public URL (default "localhost")
+      --no-one-time         Multi-time download (default false, overwitetes the value of --one-time-download)
+      --url string          Yopass public URL (default "localhost", uses value of option --api if empty)
 
 Settings are read from flags, environment variables, or a config file located at
 ~/.config/yopass/defaults.<json,toml,yml,hcl,ini,...> in this order. Environment
@@ -78,13 +83,12 @@ Website: https://yopass.se
 
 The following options are currently available to install the CLI locally.
 
-- Compile from source (needs Go >= v1.15)
-
-  ```console
+- Compile from source (needs Go >= v1.24.1): 
+```console
   go install github.com/TassiloPitrasch/yopass/cmd/yopass@latest
   ```
 
-## Installation / Configuration
+## Server Installation / Configuration
 
 Here are the server configuration options.
 
@@ -96,6 +100,7 @@ $ yopass-server -h
       --database string    database backend ('memcached' or 'redis') (default "memcached")
       --max-length int     max length of encrypted secret (default 10000)
       --memcached string   Memcached address (default "localhost:11211")
+      --metrics-address 	 listen address of the metrics server (defaults to the value of --address)
       --metrics-port int   metrics server listen port (default -1)
       --port int           listen port (default 1337)
       --redis string       Redis URL (default "redis://localhost:6379/0")
@@ -104,11 +109,12 @@ $ yopass-server -h
       --cors-allow-origin  Access-Control-Allow-Origin CORS setting (default *)
 ```
 
-Encrypted secrets can be stored either in Memcached or Redis by changing the `--database` flag.
+Encrypted secrets can be stored either in Memcached or Redis/Valkey by changing the `--database` flag.
 
 ### Docker Compose
 
-Use the Docker Compose files `deploy/redis-with-nginx-and-letsencrypt/docker-compose.yml` or `deploy/memcached-with-nginx-and-letsencrypt/docker-compose.yml` to set up a yopass instance with TLS transport encryption and certificate auto renewal using [Let's Encrypt](https://letsencrypt.org/). First point your domain to the host you want to run yopass on. Then replace the placeholder values for `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` in the respective docker-compose-file with your values. Afterwards change to the corresponding directory and start the containers with:
+Use the files in `deploy/docker-compose/` to set up a yopass instance quickly via Docker compose. 
+Run the variants `[memcached/redis/valkey]-with-nginx-proxy-and-letsencrypt` to include TLS transport encryption and certificate auto renewal using [Let's Encrypt](https://letsencrypt.org/). For this, point your domain to the host you want to run yopass on. Then replace the placeholder values for `VIRTUAL_HOST`, `LETSENCRYPT_HOST` and `LETSENCRYPT_EMAIL` in the respective file with your values. Afterwards change to the corresponding directory and start the containers with:
 
 ```console
 docker-compose up -d
@@ -119,8 +125,9 @@ Yopass will then be available under the domain you specified through `VIRTUAL_HO
 Advanced users that already have a reverse proxy handling TLS connections can use the `insecure` setup:
 
 ```console
-cd deploy/docker/compose/redis-insecure OR
-cd deploy/docker/compose/memcached-insecure
+cd deploy/docker-compose/memcached-insecure OR
+cd deploy/docker-compose/redis-insecure OR
+cd deploy/docker-compose/valkey-insecure
 docker-compose up -d
 ```
 
@@ -139,6 +146,13 @@ command: redis-server --requirepass ${YOPASS_REDIS_PASSWORD} (for the Redis cont
 To change the general Redis settings, a configuration-file (usually named `redis.conf`) can be used: `redis-server /etc/redis.conf`; the respective file must of course be available in the container.
 
 Above set-ups should use environment variables to separate Docker infrastructure and custom settings.
+
+#### Using a Valkey database
+Valkey acts as drop-in replacement for Redis. The settings and connection string stays the same; just make sure to adapt the service/container name accordingly:
+```
+command: --database=redis --redis=redis://:${YOPASS_REDIS_PASSWORD}@yopass_valkey:6379/0 --port 80
+```
+
 ### Docker
 
 With TLS encryption
@@ -174,6 +188,7 @@ _This is meant to get you started, please configure TLS when running yopass for 
 Yopass optionally provides metrics in the [OpenMetrics][] / [Prometheus][] text
 format. Use flag `--metrics-port <port>` to let Yopass start a second HTTP
 server on that port making the metrics available on path `/metrics`.
+To host the metrics server on a different interface than the actual application, use the `--metrics-address <address>` option.
 
 Supported metrics:
 
@@ -187,7 +202,7 @@ Supported metrics:
 
 ## Style
 
-If building the yopass Docker Image yourself, the application's style can easily be adapted by using environment variables. The respective file should be located in `website`.  See below for an example.
+If building the yopass Docker Image yourself, the application's style can easily be adapted using environment variables. The respective file should be located in `website`.  See below for an example.
 
     VITE_PRIMARY_COLOR="#607d8b3"
     VITE_LOGO="custom/logo.svg"
