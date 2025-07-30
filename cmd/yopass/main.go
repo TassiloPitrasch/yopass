@@ -238,7 +238,7 @@ func expiration(s string) int32 {
 	// Calculating the time-to-live in seconds and range check
 	// If either the factor or the value is 0, the result will also be 0 and therefore out of range
 	result := timeFactor * value
-	if result < 60 || result > 2592000 {
+	if result < 300 || result > 2592000 {
 		return 0
 	}
 
