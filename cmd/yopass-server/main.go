@@ -33,6 +33,7 @@ func init() {
 	pflag.String("asset-path", "public", "path to the assets folder")
 	pflag.Int("max-length", 10000, "max length of encrypted secret")
 	pflag.String("memcached", "localhost:11211", "memcached address")
+	pflag.String("metrics-address", "", "listen address (default same as address)")
 	pflag.Int("metrics-port", -1, "metrics server listen port")
 	pflag.String("redis", "redis://localhost:6379/0", "Redis URL")
 	pflag.String("tls-cert", "", "path to TLS certificate")
@@ -69,6 +70,7 @@ func main() {
 		AssetPath:           viper.GetString("asset-path"),
 		Logger:              logger,
 	}
+
 	yopassSrv := &http.Server{
 		Addr:      fmt.Sprintf("%s:%d", viper.GetString("address"), viper.GetInt("port")),
 		Handler:   y.HTTPHandler(),
@@ -83,8 +85,12 @@ func main() {
 		}
 	}()
 
+	// metricsAddress defaults to address
+	if viper.GetString("metrics-address") == "" {
+		viper.Set("metrics-address", viper.GetString("address"))
+	}
 	metricsServer := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", viper.GetString("address"), viper.GetInt("metrics-port")),
+		Addr:    fmt.Sprintf("%s:%d", viper.GetString("metrics-address"), viper.GetInt("metrics-port")),
 		Handler: metricsHandler(registry),
 	}
 	if port := viper.GetInt("metrics-port"); port > 0 {
@@ -95,6 +101,9 @@ func main() {
 				logger.Fatal("metrics server stopped unexpectedly", zap.Error(err))
 			}
 		}()
+	} else if checkFlagDefined("metrics-address") {
+		// port <= 0, but metrics-address is specified
+		logger.Warn("metrics-address defined but not metrics-port, no yopass metrics server started")
 	}
 
 	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
@@ -168,4 +177,13 @@ func setupDatabase(logger *zap.Logger) (server.Database, error) {
 		return nil, fmt.Errorf("unsupported database, expected 'memcached' or 'redis' got '%s'", database)
 	}
 	return db, nil
+}
+
+func checkFlagDefined(flag_name string) (found bool) {
+	pflag.Visit(func(f *pflag.Flag) {
+		if f.Name == flag_name {
+			found = true
+		}
+        })
+	return found
 }
