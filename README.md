@@ -96,17 +96,21 @@ Command line flags:
 
 ```console
 $ yopass-server -h
-      --address string     	listen address (default 0.0.0.0)
-      --database string    	database backend ('memcached' or 'redis') (default "memcached")
-      --max-length int     	max length of encrypted secret (default 10000)
-      --memcached string   	Memcached address (default "localhost:11211")
-      --metrics-address string	listen address of the metrics server (defaults to the value of --address)
-      --metrics-port int   	metrics server listen port (default -1)
-      --port int           	listen port (default 1337)
-      --redis string       	Redis URL (default "redis://localhost:6379/0")
-      --tls-cert string    	path to TLS certificate
-      --tls-key string     	path to TLS key
-      --cors-allow-origin  	Access-Control-Allow-Origin CORS setting (default *)
+      --address string             listen address (default 0.0.0.0)
+      --asset-path string          path to the assets folder (default "public")
+      --cors-allow-origin string   Access-Control-Allow-Origin (default "*")
+      --database string            database backend ('memcached' or 'redis') (default "memcached")
+      --disable-upload             disable the /file upload endpoints
+      --force-onetime-secrets      reject non onetime secrets from being created
+      --log-level Level            Log level (default info)
+      --max-length int             max length of encrypted secret (default 10000)
+      --memcached string           memcached address (default "localhost:11211")
+      --metrics-address string     listen address (default same as address)
+      --metrics-port int           metrics server listen port (default -1)
+      --port int                   listen port (default 1337)
+      --redis string               Redis URL (default "redis://localhost:6379/0")
+      --tls-cert string            path to TLS certificate
+      --tls-key string             path to TLS key
 ```
 
 Encrypted secrets can be stored either in Memcached or Redis/Valkey by changing the `--database` flag.
