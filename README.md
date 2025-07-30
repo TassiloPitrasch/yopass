@@ -183,6 +183,12 @@ kubectl port-forward service/yopass 1337:1337
 
 _This is meant to get you started, please configure TLS when running yopass for real._
 
+### Compile from source
+Requires Go >= v1.24.1: 
+```console
+  go install github.com/TassiloPitrasch/yopass/cmd/yopass-server@latest
+```
+
 ## Monitoring
 
 Yopass optionally provides metrics in the [OpenMetrics][] / [Prometheus][] text
