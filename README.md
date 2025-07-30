@@ -26,20 +26,20 @@ The sole purpose of Yopass is to minimize the amount of passwords floating aroun
 1. Valkey is supported as a drop-in replacement for Redis. According compose-files have been added.
 2. The expiration time can be set to (nearly) arbitrary values: Instead of only allowing an hour, a day or a week, the application's API accepts values between five minutes and 31 days. This is reflected both on the website (with the new option "One month") as well as in the command-line tool, which accepts the same range of values.
 2. A secret's remaining time-to-live (TTL) is displayed when the secret is decrypted successfully. Note that this only works if using a Redis/Valkey-database. For one-time secrets, the notice to store/download the secret is enhanced.
-3. The application's style is easier to adapt: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See [Style](##Style) for more details.
+3. The application's style is easier to adapt: In an .env-file (located in the website directory), the main color as well as a custom icon and logo can be defined. This is fully optional and the application will use the standard yopass design by default. See _Style_ for more details.
 4. Deployment via Docker (compose) was modified in several ways:
 
     - A compose-file to securely deploy yopass with a Redis-database behind an nginx-proxy is available.
     - For Redis/Valkey, the data is stored in a separate volume to allow persistence after shutdowns/restarts.
     - Networking was reworked to better separate proxy, application and database.
 
-6. The interface the server used to expose the metrics can be set via the command-line parameter --metrics-address. By default, the same interface is used as for the actual application. This might be useful for the more security-concerned users, as this enables them to host the metrics for local access only (by setting --metrics-address to 127.0.0.1 e.g.).
+6. The interface the server used to expose the metrics can be set via the command-line parameter `--metrics-address`. By default, the same interface is used as for the actual application. This might be useful for the more security-concerned users, as this enables them to host the metrics for local access only (by setting `--metrics-address` to 127.0.0.1 e.g.).
 7. For more convenience when using the client, two additional mechanics were added:
 
-    - The --no-one-time parameter - which can only be set on the command-line and not during build, via the environment or in one of the configuration-files - works as a more convenient alternative to the clumsy --one-time=False. It overwrites the configurations mentioned beforehand.
+    - The `--no-one-time parameter` - which can only be set on the command-line and not during build, via the environment or in one of the configuration-files - works as a more convenient alternative to the clumsy `--one-time=False`. It overwrites the configurations mentioned beforehand.
     - The value set for the yopass API also works as a fallback for the URL should URL not be defined anywhere.
 	
-8. Displaying a secret as a QR-code can be disabled by setting the respective environment-variable, similar to deactivating the upload-feature. See the website's README for more details.
+8. Displaying a secret as a QR-code can be disabled by setting the respective environment-variable, similar to deactivating the upload-feature. See the website's [README](https://github.com/TassiloPitrasch/yopass/blob/main/website/README.md) for more details.
 
 
 
