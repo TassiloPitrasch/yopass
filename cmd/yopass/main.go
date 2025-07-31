@@ -88,7 +88,7 @@ func init() {
 	pflag.String("file", viper.GetString("file"), "Read secret from file instead of stdin")
 	pflag.String("key", viper.GetString("key"), "Manual encryption/decryption key")
 	pflag.Bool("one-time", viper.GetBool("one-time"), "One-time download")
-	pflag.Bool("no-one-time", false, "Multi-time download (default false, overwrites the value of --one-time-download")
+	pflag.Bool("no-one-time", false, "Multi-time download (default false, overwrites the value of --one-time-download)")
 	pflag.String("url", viper.GetString("url"), "Yopass public URL, uses value of option --api if empty")
 	viper.BindPFlags(pflag.CommandLine)
 }
