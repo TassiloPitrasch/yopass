@@ -3791,10 +3791,10 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
-openpgp@*, openpgp@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.2.1.tgz#a661ded66fdefdb87afcbf95ecbb293e5eaa8c7a"
-  integrity sha512-5vkqxQWgyrfY0shygqJTaCoa4SbPdjrpmtfREyXBBDrXjoRT25edEMQbdKH5/WxDXlLVn9TxPsVrKP72Jjuz2A==
+openpgp@*, openpgp@^6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.2.2.tgz#329f4fab075f9746a94e584df8cfbda70a0dcaf3"
+  integrity sha512-P/dyEqQ3gfwOCo+xsqffzXjmUhGn4AZTOJ1LCcN21S23vAk+EAvMJOQTsb/C8krL6GjOSBxqGYckhik7+hneNw==
 
 ospath@^1.2.2:
   version "1.2.2"
