@@ -2323,12 +2323,12 @@ i18next-http-backend@^3.0.2:
   dependencies:
     cross-fetch "4.0.0"
 
-i18next@^25.8.13:
-  version "25.8.13"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.8.13.tgz#1f9df59329f1706f02b2b58b5d1f75196ddb6e4a"
-  integrity sha512-E0vzjBY1yM+nsFrtgkjLhST2NBkirkvOVoQa0MSldhsuZ3jUge7ZNpuwG0Cfc74zwo5ZwRzg3uOgT+McBn32iA==
+i18next@^25.8.20:
+  version "25.8.20"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.8.20.tgz#6bdf1334e79fd19d7ceadbaaeceb9ca2f63855b4"
+  integrity sha512-xjo9+lbX/P1tQt3xpO2rfJiBppNfUnNIPKgCvNsTKsvTOCro1Qr/geXVg1N47j5ScOSaXAPq8ET93raK3Rr06A==
   dependencies:
-    "@babel/runtime" "^7.28.4"
+    "@babel/runtime" "^7.28.6"
 
 ieee754@^1.1.13:
   version "1.2.1"
