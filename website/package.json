@@ -15,7 +15,7 @@
     "file-saver": "^2.0.5",
     "i18next": "^25.10.5",
     "i18next-browser-languagedetector": "^8.2.1",
-    "i18next-http-backend": "^3.0.2",
+    "i18next-http-backend": "^3.0.4",
     "openpgp": "^6.3.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
