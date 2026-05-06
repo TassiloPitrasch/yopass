@@ -23,7 +23,7 @@
     "react-hook-form": "^7.72.0",
     "react-i18next": "^16.6.5",
     "react-router-dom": "^7.14.2",
-    "react-qr-code": "^2.0.18",
+    "react-qr-code": "^2.0.21",
     "react-use": "^17.6.0",
     "swr": "^2.4.1"
   },
