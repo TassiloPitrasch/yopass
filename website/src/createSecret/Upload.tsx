@@ -101,21 +101,21 @@ const Upload = () => {
     );
   }
   return (
-    <Grid>
+    <Grid sx={{ display: 'flex', justifyContent: 'center' }}>
       {isFileTooLarge && <Error message={t('upload.fileTooLarge')} />}
       <Error message={error} onClick={() => setError('')} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div {...getRootProps()}>
           <input {...getInputProps()} />
-          <Grid container justifyContent="center">
+          <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography variant="h4">{t('upload.title')}</Typography>
           </Grid>
-          <Grid container justifyContent="center">
+          <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography variant="caption" display="block">
               {t('upload.caption')}
             </Typography>
           </Grid>
-          <Grid container justifyContent="center">
+          <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
             <FontAwesomeIcon
               color={isDragActive ? palette.primary.main : palette.text.primary}
               size="8x"
@@ -124,13 +124,13 @@ const Upload = () => {
           </Grid>
         </div>
 
-        <Grid container justifyContent="center" mt="15px">
+        <Grid container sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
           <Expiration control={control} />
         </Grid>
-        <Grid container alignItems="center" direction="column">
+        <Grid container direction="column" sx={{ display: 'flex', justifyContent: 'center' }}>
           <OneTime control={control} />
           <SpecifyPasswordToggle control={control} />
-          <Grid container justifyContent="center">
+          <Grid container sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
             {!generateDecryptionKey && (
               <SpecifyPasswordInput control={control} />
             )}

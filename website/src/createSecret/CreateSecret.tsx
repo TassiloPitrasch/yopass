@@ -106,7 +106,6 @@ const CreateSecret = () => {
         {t('create.title')}
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container justifyContent="center" paddingTop={1}>
           <Controller
             name="secret"
             control={control}
@@ -127,18 +126,16 @@ const CreateSecret = () => {
               />
             )}
           />
-          <Grid container justifyContent="center" marginTop={2} size={{ xs: 12 }}>
+          <Grid item sx={{ display: 'flex', justifyContent: 'center', mt: 2 }} size={{ xs: 12 }}>
             <Expiration control={control} />
           </Grid>
-          <Grid container alignItems="center" direction="column" size={{ xs: 12 }}>
-            <OneTime control={control} />
-            <SpecifyPasswordToggle control={control} />
-            {!generateDecryptionKey && (
-              <SpecifyPasswordInput control={control} />
-            )}
-          </Grid>
-          <Grid container justifyContent="center" size={{ xs: 12 }}>
-            <Box p={2} pb={4}>
+          <OneTime control={control} />
+          <SpecifyPasswordToggle control={control} />
+          {!generateDecryptionKey && (
+            <SpecifyPasswordInput control={control} />
+          )}
+          <Grid container sx={{ display: 'flex', justifyContent: 'center' }} size={{ xs: 12 }}>
+            <Box sx={{ 'p': 2, 'pb': 4 }}>
               <Button
                 onClick={() => handleSubmit(onSubmit)()}
                 variant="contained"
@@ -152,7 +149,6 @@ const CreateSecret = () => {
               </Button>
             </Box>
           </Grid>
-        </Grid>
       </form>
     </>
   );
@@ -162,7 +158,7 @@ export const OneTime = (props: { control: Control<any> }) => {
   const { t } = useTranslation();
 
   return (
-    <Grid item justifyContent="center">
+    <Grid item sx={{ display: 'flex', justifyContent: 'center' }}>
       <FormControlLabel
         control={
           <Controller
@@ -187,18 +183,17 @@ export const OneTime = (props: { control: Control<any> }) => {
 export const SpecifyPasswordInput = (props: { control: Control<any> }) => {
   const { t } = useTranslation();
   return (
-    <Grid item justifyContent="center">
-      <InputLabel>{t('create.inputPasswordLabel')}</InputLabel>
+    <Grid item sx={{ display: 'flex', justifyContent: 'center', pt: 1 }}>
       <Controller
         name="password"
         control={props.control}
         render={({ field }) => (
           <TextField
             {...field}
-            fullWidth
             type="text"
             id="password"
             variant="outlined"
+            label={t('create.inputPasswordLabel')}
             inputProps={{
               autoComplete: 'off',
               spellCheck: 'false',
@@ -221,20 +216,22 @@ export const SpecifyPasswordInput = (props: { control: Control<any> }) => {
 export const SpecifyPasswordToggle = (props: { control: Control<any> }) => {
   const { t } = useTranslation();
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Controller
-            name="generateDecryptionKey"
-            control={props.control}
-            render={({ field }) => (
-              <Checkbox {...field} defaultChecked={true} color="primary" />
-            )}
-          />
-        }
-        label={t('create.inputGenerateLabel') as string}
-      />
-    </FormGroup>
+    <Grid item sx={{ display: 'flex', justifyContent: 'center' }}>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Controller
+              name="generateDecryptionKey"
+              control={props.control}
+              render={({ field }) => (
+                <Checkbox {...field} defaultChecked={true} color="primary" />
+              )}
+            />
+          }
+          label={t('create.inputGenerateLabel') as string}
+        />
+      </FormGroup>
+    </Grid>
   );
 };
 
