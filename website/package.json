@@ -22,7 +22,7 @@
     "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.79.0",
     "react-i18next": "^17.0.8",
-    "react-router-dom": "^7.17.0",
+    "react-router-dom": "^7.18.0",
     "react-qr-code": "^2.2.0",
     "react-use": "^17.6.1",
     "swr": "^2.4.1"
