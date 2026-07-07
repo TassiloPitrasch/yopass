@@ -11,7 +11,7 @@
     "@fortawesome/fontawesome-svg-core": "^7.3.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.0",
     "@fortawesome/react-fontawesome": "^3.3.1",
-    "@mui/material": "^9.1.2",
+    "@mui/material": "^9.2.0",
     "file-saver": "^2.0.5",
     "i18next": "^26.3.4",
     "i18next-browser-languagedetector": "^8.2.1",
