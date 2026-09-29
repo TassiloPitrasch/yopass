@@ -2738,10 +2738,10 @@ onetime@^7.0.0:
   dependencies:
     mimic-function "^5.0.0"
 
-openpgp@*, openpgp@^6.3.1:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.3.1.tgz#2e9c60b2173f799e99c7e6936324fe6379b20cf3"
-  integrity sha512-7oSPvmlKPojxFoyelT5DWPIAVmqWZh4qU/5pO6bdoShEtRpCw9Sye9IXUQj6EFM3XpgGssqccAr705YtTcLNQw==
+openpgp@*, openpgp@^6.3.2:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.3.2.tgz#b279c6b8380e605c3cd53766062ea14d1f254787"
+  integrity sha512-wcZTzHz41LV8Y48zH/JlD1JT8YdNmpWOuMAjQ/podvvCwsjBEU37K3znJh4UQcj3hksE5z9TzvhbUbwzsGvlLQ==
 
 ospath@^1.2.2:
   version "1.2.2"
