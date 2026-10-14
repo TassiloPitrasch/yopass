@@ -52,7 +52,7 @@
     "dotenv": "^18.0.6",
     "eslint-plugin-cypress": "^7.0.2",
     "eslint-plugin-import": "^2.32.0",
-    "prettier": "^3.9.9",
+    "prettier": "^3.9.10",
     "start-server-and-test": "^3.0.13",
     "typescript": "^7.0.2",
     "vite": "^8.3.4"
