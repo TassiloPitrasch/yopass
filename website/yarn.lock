@@ -2008,10 +2008,10 @@ i18next-browser-languagedetector@^8.2.1:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-http-backend@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-4.0.3.tgz#6dc2c3f4d0823c84b61bfc84d3a7295487bbb424"
-  integrity sha512-B5GJysCsJwqiDQRpUcikWsut82Vmekix58WIyiCpYtxaZ/wY8kwJCicMRvVcMoIa1x84siiRl5vBt6iCBVO6zg==
+i18next-http-backend@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-4.0.5.tgz#a259cc1bdcee0632b67c42de65acaef61edbce20"
+  integrity sha512-0uXq24ZAVFwbA0MGija0AZYBcs8iA+wbC//UiDyZwPC3/wZfyD20LgGxvjMOqf9o3/pDJ05ZLIlB4U3+AdA9AQ==
 
 i18next@^26.4.7:
   version "26.4.7"
