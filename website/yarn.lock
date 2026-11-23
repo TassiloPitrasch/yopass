@@ -1781,10 +1781,10 @@ file-saver@^2.0.5:
   resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
   integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
 
-file-selector@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-5.0.1.tgz#9a8f7a944559efe4115bef40df885ac2092b0651"
-  integrity sha512-v0g/PTeuQgvKCBrVRsfVudvwXlRHSWHEQkVgKawgCGHkEpKA1clp3Om5jvEVhz8G9W/mOYjJH9FhkH4C888PgQ==
+file-selector@^5.0.2:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-5.0.3.tgz#a02aa989b711bfe3d4435685edfa2c4c96a8c31b"
+  integrity sha512-d15nlW+KKq82TlItRvCHtJ8NXCX0nwz2SEUR1MOT8W50c5q2se551ZFdhITFrWohl/5wbRPfMMF9jq4Oj1xRGQ==
 
 find-root@^1.1.0:
   version "1.1.0"
@@ -2951,13 +2951,13 @@ react-dom@^19.3.1:
   dependencies:
     scheduler "^0.28.0"
 
-react-dropzone@*, react-dropzone@^20.2.0:
-  version "20.2.0"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-20.2.0.tgz#b5868a4b1f1ec0b0855a921d884bd247bccb1861"
-  integrity sha512-FRlcSp6UFT9Etg57U4+g6O6qF/jH7sUh2Hz67lQlrZJa/3FjfAFvw7DwDSItiG2vBUXTdh2wroEwXPPg7o/jkg==
+react-dropzone@*, react-dropzone@^20.2.1:
+  version "20.2.1"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-20.2.1.tgz#cb75938e4159e496cf1178323c349cf6e56a3891"
+  integrity sha512-8ldzI42a+iz6jlC5t0HoOO5ce65dU8ZGo8ZpesL2E57JByC8LBUieMrkGj97YYfgMaYKwkhpkfYxKOCKAekywA==
   dependencies:
     attr-accept "^4.0.1"
-    file-selector "^5.0.1"
+    file-selector "^5.0.2"
 
 react-hook-form@^7.92.0:
   version "7.92.0"
