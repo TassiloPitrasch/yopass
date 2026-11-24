@@ -1467,6 +1467,11 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+eckey-utils@^0.7.14:
+  version "0.7.14"
+  resolved "https://registry.yarnpkg.com/eckey-utils/-/eckey-utils-0.7.14.tgz#53b325f8cfe9a9bf56ded8d51f1a0e533ae546f2"
+  integrity sha512-s/mENS+mMnJjDSydy0muBQQHMTWJ1nPe8EiphANZrf+lv/1u35aP9WvWHTWqCBJ21blNIurGF7UoLjtaOpoCFw==
+
 emoji-regex@^10.3.0:
   version "10.6.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-10.6.0.tgz#bf3d6e8f7f8fd22a65d9703475bc0147357a6b0d"
@@ -2788,10 +2793,12 @@ onetime@^7.0.0:
   dependencies:
     mimic-function "^5.0.0"
 
-openpgp@*, openpgp@^6.3.2:
-  version "6.3.2"
-  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.3.2.tgz#b279c6b8380e605c3cd53766062ea14d1f254787"
-  integrity sha512-wcZTzHz41LV8Y48zH/JlD1JT8YdNmpWOuMAjQ/podvvCwsjBEU37K3znJh4UQcj3hksE5z9TzvhbUbwzsGvlLQ==
+openpgp@*, openpgp@^6.3.3:
+  version "6.3.3"
+  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-6.3.3.tgz#29ed20ebb9d2e2b359bee4ddb4d96b645e60b600"
+  integrity sha512-W0foQI+Zb7/TCy7Z50gqZejYe3oJkiZJ9OSV4ImuRT8MmoKOJhtAMvRm6w9STlyYluLiuezG7+0Qdqbcmmx7ig==
+  dependencies:
+    eckey-utils "^0.7.14"
 
 ospath@^1.2.2:
   version "1.2.2"
